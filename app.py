@@ -19,7 +19,7 @@ class Generator(nn.Module):
         self.nz = nz
         self.label_emb = nn.Embedding(n_classes, n_classes)
 
-        self.net = nn.Sequential(
+        self.model = nn.Sequential(
             nn.Linear(nz + n_classes, 128),
             nn.ReLU(True),
             nn.Linear(128, 256),
@@ -36,7 +36,7 @@ class Generator(nn.Module):
         # One‑hot like embedding concat
         c = self.label_emb(labels)
         x = torch.cat((z, c), dim=1)
-        out = self.net(x)
+        out = self.model(x)
         out = out.view(-1, 1, IMG_SIZE, IMG_SIZE)
         return out
 
